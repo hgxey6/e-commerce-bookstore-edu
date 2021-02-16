@@ -1,8 +1,10 @@
 package com.bookstore.controller;
 
+import com.bookstore.domain.security.PasswordResetToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class HomeController {
@@ -18,7 +20,12 @@ public class HomeController {
     }
 
     @RequestMapping("/forgetPassword")
-    public String forgetPassword(Model model) {
+    public String forgetPassword(
+            Local local,
+            @RequestParam("token") String token,
+            Model model) {
+        PasswordResetToken passwordResetToken = userService.getPasswordResetToken(token);
+
         model.addAttribute("classActiveForgetPassword", true);
         return "myAccount";
     }
